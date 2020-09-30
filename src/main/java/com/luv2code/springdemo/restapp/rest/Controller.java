@@ -23,13 +23,13 @@ public class Controller {
 //hasRole('ROLE_'),hasAnyRole('ROLE_').hasAuthority('ROLE_').hasAnyAuthority('ROLE_')
 
 	@GetMapping("/employees")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN,ROLE_EMPLOYEE')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_EMPLOYEE')")
 	public List<Employee> getEmployees(){
 		return employeeService.findAll();
 	}
 
 	@GetMapping("/employees/{id}")
-	@PreAuthorize("hasAuthority('employees:read,admin:read')")
+	@PreAuthorize("hasAuthority('admin:read')")
 	public Employee findEmployee(@PathVariable int id){
 		Employee employee=employeeService.findById(id);
 		if(employee==null){
@@ -39,7 +39,7 @@ public class Controller {
 	}
 
 	@PostMapping("/employees")
-	@PreAuthorize("hasAuthority('admin:write,employee:write')")
+	@PreAuthorize("hasAuthority('admin:read')")
 	public Employee addEmployee(@RequestBody Employee employee){
 		employee.setId(0);
 		employeeService.saveAnEmployee(employee);
@@ -53,7 +53,7 @@ public class Controller {
 		return employee;
 	}
 	@DeleteMapping("/employees/{id}")
-	@PreAuthorize("hasAuthority('admin:write')")
+	@PreAuthorize("hasAuthority('admin:read')")
 	public String deleteEmployee(@PathVariable int id){
 	Employee employee =	employeeService.findById(id);
 	if(employee==null){
