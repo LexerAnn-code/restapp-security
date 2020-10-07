@@ -12,7 +12,7 @@ import com.luv2code.springdemo.restapp.Service.EmployeeService;
 import com.luv2code.springdemo.restapp.model.Employee;
 
 @RestController
-@RequestMapping("management/api/v1")
+@RequestMapping("management/v1")
 public class Controller {
 
 	@Autowired
@@ -22,8 +22,8 @@ public class Controller {
 	public String coachName;
 //hasRole('ROLE_'),hasAnyRole('ROLE_').hasAuthority('ROLE_').hasAnyAuthority('ROLE_')
 
-	@GetMapping("/employees")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_EMPLOYEE')")
+	@GetMapping()
+	@PreAuthorize("hasAuthority('admin:read')")
 	public List<Employee> getEmployees(){
 		return employeeService.findAll();
 	}
