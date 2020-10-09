@@ -1,13 +1,16 @@
 package com.luv2code.springdemo.restapp.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
+
 @Table(name = "Employee")
-public class Employee {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private int id;
+//@SequenceGenerator(name = "sequence",sequenceName = "Employee")
+public class Employee implements Serializable {
+	private static final long serialVersionUID = -699973489826357998L;
+	@Id
+private String id;
 @Column(name = "first_name")
 private String firstName;
 @Column(name = "last_name")
@@ -20,13 +23,16 @@ public String getEmail() {
 public void setEmail(String email) {
 	this.email = email;
 }
-public int getId() {
-	return id;
-}
-public void setId(int id) {
-	this.id = id;
-}
-public String getFirstName() {
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getFirstName() {
 	return firstName;
 }
 public void setFirstName(String firstName) {
@@ -38,7 +44,7 @@ public String getLastName() {
 public void setLastName(String lastName) {
 	this.lastName = lastName;
 }
-public Employee(int id, String firstName, String lastName, String email) {
+public Employee(String id, String firstName, String lastName, String email) {
 	this.id = id;
 	this.firstName = firstName;
 	this.lastName = lastName;

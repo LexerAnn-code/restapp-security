@@ -47,13 +47,13 @@ public class UserAuth implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false)
-    public int userid;
+    public String userid;
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 @Column(nullable = false)
@@ -62,6 +62,6 @@ public class UserAuth implements Serializable {
     private String email;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = true,columnDefinition = "boolean default false")
+    @Column(columnDefinition = "boolean default false")
     private Boolean emailVerificationStatus=false;
 }

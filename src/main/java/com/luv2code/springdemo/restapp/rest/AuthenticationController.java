@@ -18,13 +18,11 @@ public class AuthenticationController {
 @Autowired
 UserAuthService userAuthService;
 @PostMapping()
-public void signup(@RequestBody UserReq userReq){
+public String signup(@RequestBody UserReq userReq){
     UserDto userDto=new UserDto();
     BeanUtils.copyProperties(userReq,userDto);
-
-    UserDto createdUser= userAuthService.createUser(userDto);
-
-
+     userAuthService.createUser(userDto);
+return "USER-CREATED-SUCCESSFULLY";
 }
 
 
