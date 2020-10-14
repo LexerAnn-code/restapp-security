@@ -1,9 +1,8 @@
 package com.luv2code.springdemo.restapp.rest;
 
-import com.luv2code.springdemo.restapp.ErrorHandling.EmployeeErrorHandling;
+import com.luv2code.springdemo.restapp.errorHandling.EmployeeErrorHandling;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping("/accessdenied")

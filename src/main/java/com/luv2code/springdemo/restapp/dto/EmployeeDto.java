@@ -1,6 +1,7 @@
 package com.luv2code.springdemo.restapp.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class EmployeeDto  implements Serializable {
     private static final long serialVersionUID = 1851332884629817362L;
@@ -8,6 +9,7 @@ public class EmployeeDto  implements Serializable {
     private String firstname;
     private String lastname;
     private String email;
+
 
     public EmployeeDto() {
     }

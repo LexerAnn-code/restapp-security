@@ -16,6 +16,9 @@ private final int KEY_LENGTH=256;
 public String generateUserId(int length){
     return  generateRandomString(length);
 }
+    public String generateAddressId(int length){
+        return  generateRandomString(length);
+    }
 
     private String generateRandomString(int length) {
 StringBuilder returnValue=new StringBuilder(length);

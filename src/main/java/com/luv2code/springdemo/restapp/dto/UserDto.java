@@ -1,17 +1,18 @@
 package com.luv2code.springdemo.restapp.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UserDto implements Serializable {
 
     private static final long serialVersionUID = -7151486248839483974L;
-    private long id;//From the database
-    public int userid;
+
+    public String userid;
     private String userName;
     private String email;
     private String password;
 
-private Boolean emailVerificationStatus=false;
+    private Boolean emailVerificationStatus=false;
 
     public Boolean getEmailVerificationStatus() {
         return emailVerificationStatus;
@@ -21,19 +22,12 @@ private Boolean emailVerificationStatus=false;
         this.emailVerificationStatus = emailVerificationStatus;
     }
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 

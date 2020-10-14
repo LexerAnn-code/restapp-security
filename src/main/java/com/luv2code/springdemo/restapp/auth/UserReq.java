@@ -1,9 +1,12 @@
 package com.luv2code.springdemo.restapp.auth;
 
+import java.util.List;
+
 public class UserReq {
 private String userName;
 private String email;
 private String password;
+
 
     public UserReq() {
     }

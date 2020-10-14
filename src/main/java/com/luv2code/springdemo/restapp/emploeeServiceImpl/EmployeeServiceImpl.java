@@ -1,28 +1,24 @@
-package com.luv2code.springdemo.restapp.EmploeeServiceImpl;
+package com.luv2code.springdemo.restapp.emploeeServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import com.luv2code.springdemo.restapp.ErrorHandling.EmployeeErrorHandling;
-import com.luv2code.springdemo.restapp.auth.AuthErrorHandling;
-import com.luv2code.springdemo.restapp.auth.UserAuth;
 import com.luv2code.springdemo.restapp.dao.EmployeeRepository;
 import com.luv2code.springdemo.restapp.dto.EmployeeDto;
-import com.luv2code.springdemo.restapp.dto.UserDto;
-import org.springframework.beans.BeanUtils;
+import com.luv2code.springdemo.restapp.dto.Util;
+import com.luv2code.springdemo.restapp.errorHandling.EmployeeErrorHandling;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.luv2code.springdemo.restapp.Service.EmployeeService;
+import com.luv2code.springdemo.restapp.service.EmployeeService;
 import com.luv2code.springdemo.restapp.model.Employee;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService  {
-
+	@Autowired
+	Util util;
 	@Autowired
 private 	EmployeeRepository employeeRepository;
 
@@ -35,6 +31,9 @@ private 	EmployeeRepository employeeRepository;
 	@Override
 
 	public void saveAnEmployee(Employee employee) {
+
+		String publicKey = util.generateUserId(5);
+		employee.setId(publicKey);
 		employeeRepository.save(employee);
 		//employeeDAO.saveAnEmployee(employee);
 	}
@@ -46,20 +45,29 @@ private 	EmployeeRepository employeeRepository;
 	}
 
 	@Override
-	public Employee createEmployee(EmployeeDto employeeDto) {
-		return null;
+	public Employee deleteByEmail(String email) {
+		return employeeRepository.deleteByEmail(email);
 	}
 
 //	@Override
-//	public Employee createEmployee(EmployeeDto employeeDto) {
-//		Employee employee=new Employee();
-//		Employee storedEmail=employeeRepository.findByEmail(employeeDto.getEmail());
-//		if(storedEmail!=null) throw new EmployeeErrorHandling("EMAIL EXISTS");
-//		BeanUtils.copyProperties(employeeDto,employee);
-//		employeeRepository.save(employee);
-//		throw new AuthErrorHandling("SUCCESS");
-//		return employee;
+//	public Employee updateByEmail(String email) {
+//		return  employeeRepository.save();
 //	}
+
+
+
+	@Override
+	public Employee createEmployee(EmployeeDto employeeDto) {
+		ModelMapper modelMapper=new ModelMapper();
+		Employee employee=modelMapper.map(employeeDto,Employee.class);
+
+		Employee storedEmail=employeeRepository.findByEmail(employeeDto.getEmail());
+		if(storedEmail!=null) throw new EmployeeErrorHandling("EMAIL EXISTS");
+
+
+		employeeRepository.save(employee);
+		return employee;
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

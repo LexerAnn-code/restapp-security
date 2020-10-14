@@ -17,6 +17,7 @@ private String firstName;
 private String lastName;
 @Column(name = "email")
 private String email;
+
 public String getEmail() {
 	return email;
 }

@@ -1,4 +1,4 @@
-package com.luv2code.springdemo.restapp.ErrorHandling;
+package com.luv2code.springdemo.restapp.errorHandling;
 
 public class EmployeeError {
     private int status;

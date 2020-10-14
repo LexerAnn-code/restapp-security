@@ -1,13 +1,17 @@
 package com.luv2code.springdemo.restapp.auth;
 
+import com.luv2code.springdemo.restapp.notes.NoteEntity;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
-@Entity(name = "auth_user")
-public class UserAuth implements Serializable {
+@Entity()
+
+public class User implements Serializable {
     private static final long serialVersionUID = 4372108913972509771L;
 
-    public UserAuth() {
+    public User() {
     }
 
     public String getPassword() {
@@ -18,13 +22,6 @@ public class UserAuth implements Serializable {
         this.password = password;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getUserName() {
         return userName;
@@ -42,11 +39,8 @@ public class UserAuth implements Serializable {
         this.email = email;
     }
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(nullable = false)
+    @Column(name = "userid",nullable = false)
     public String userid;
 
     public String getUserid() {
@@ -64,4 +58,16 @@ public class UserAuth implements Serializable {
     private String password;
     @Column(columnDefinition = "boolean default false")
     private Boolean emailVerificationStatus=false;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+
+    private List<NoteEntity> notes;
+
+    public List<NoteEntity> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<NoteEntity> notes) {
+        this.notes = notes;
+    }
 }
