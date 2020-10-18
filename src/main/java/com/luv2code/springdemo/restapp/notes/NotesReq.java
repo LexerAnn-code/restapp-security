@@ -1,6 +1,6 @@
 package com.luv2code.springdemo.restapp.notes;
 
-public class NotesReq {
+public class NotesReq{
     private String notesid;
     private String userid;
     private String title;

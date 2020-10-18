@@ -14,7 +14,7 @@ private String notesid;
 private String body;
 
 @ManyToOne(cascade = CascadeType.ALL)
-@JoinColumn(name = "userId")
+@JoinColumn(name = "userid")
 private User user;
 
     public User getUser() {

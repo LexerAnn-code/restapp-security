@@ -8,8 +8,7 @@ import java.util.List;
 
 @Entity()
 
-public class User implements Serializable {
-    private static final long serialVersionUID = 4372108913972509771L;
+public class User  {
 
     public User() {
     }
@@ -50,7 +49,8 @@ public class User implements Serializable {
     public void setUserid(String userid) {
         this.userid = userid;
     }
-@Column(nullable = false)
+
+@Column(name = "user_name",nullable = false)
     private String userName;
     @Column(nullable = false,unique = true)
     private String email;
@@ -58,6 +58,23 @@ public class User implements Serializable {
     private String password;
     @Column(columnDefinition = "boolean default false")
     private Boolean emailVerificationStatus=false;
+    private String emailVerificationToken;
+
+    public Boolean getEmailVerificationStatus() {
+        return emailVerificationStatus;
+    }
+
+    public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
+        this.emailVerificationStatus = emailVerificationStatus;
+    }
+
+    public String getEmailVerificationToken() {
+        return emailVerificationToken;
+    }
+
+    public void setEmailVerificationToken(String emailVerificationToken) {
+        this.emailVerificationToken = emailVerificationToken;
+    }
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
 
@@ -70,4 +87,6 @@ public class User implements Serializable {
     public void setNotes(List<NoteEntity> notes) {
         this.notes = notes;
     }
+
+
 }

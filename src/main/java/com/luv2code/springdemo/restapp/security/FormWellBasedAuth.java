@@ -34,7 +34,7 @@ public class FormWellBasedAuth extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login","/auth/*","/","/sneakers_img/Screenshot%20(32).png").permitAll()
+                .antMatchers("/login","/auth/*","/","/api/v1/email-verification").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

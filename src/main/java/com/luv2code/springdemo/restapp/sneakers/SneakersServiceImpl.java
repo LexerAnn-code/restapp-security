@@ -22,7 +22,6 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
-import static com.luv2code.springdemo.restapp.util.Compressor.compressBytes;
 
 @Service
 public class SneakersServiceImpl implements SneakersService {
