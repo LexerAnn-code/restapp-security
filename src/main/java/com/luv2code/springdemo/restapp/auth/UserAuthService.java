@@ -6,4 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public interface UserAuthService extends UserDetailsService {
    void createUser(UserDto userdto);
     boolean verifyEmailToken(String token);
+    boolean passwordReset(String email);
+
+    boolean passwordResetnew(String token, String passwordtyped);
 }

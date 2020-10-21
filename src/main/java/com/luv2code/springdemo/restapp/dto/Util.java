@@ -3,6 +3,7 @@ package com.luv2code.springdemo.restapp.dto;
 import com.luv2code.springdemo.restapp.security.SecurityConstant;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 import sun.security.util.SecurityConstants;
@@ -50,7 +51,17 @@ return new String(returnValue);
         String token=Jwts.builder()
                 .setSubject(publicUserId)
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(1)))
-                .signWith(Keys.hmacShaKeyFor(SecurityConstant.TOKEN_SECRET.getBytes()))
+                .signWith(SignatureAlgorithm.HS512,SecurityConstant.TOKEN_SECRET)
+                .compact();
+
+        return  token;
+
+    }
+    public String generatePasswordResetToken(String id){
+        String token=Jwts.builder()
+                .setSubject(id)
+                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(1)))
+                .signWith(SignatureAlgorithm.HS512,SecurityConstant.TOKEN_SECRET)
                 .compact();
 
         return  token;

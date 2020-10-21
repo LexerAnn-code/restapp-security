@@ -4,5 +4,7 @@ import javafx.beans.property.adapter.JavaBeanBooleanPropertyBuilder;
 
 public enum  RequestOperationName {
 DELETE,
-VERIFY_EMAIL;
+VERIFY_EMAIL,
+    PASSWORD_RESET,
+    PASSWORD_RESET_NEW;
 }

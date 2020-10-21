@@ -62,7 +62,7 @@ public class JwtUsernameAndPassword extends UsernamePasswordAuthenticationFilter
                 .claim("authorities",authResult.getAuthorities())
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(2)))
-                .signWith(Keys.hmacShaKeyFor(SecurityConstant.TOKEN_SECRET.getBytes()))
+                .signWith(SignatureAlgorithm.HS512,SecurityConstant.TOKEN_SECRET)
                 .compact();
         //Adding token to response header
         response.addHeader("Authorization","Bearer " + token);

@@ -1,8 +1,12 @@
 package com.luv2code.springdemo.restapp.auth;
 
+import com.luv2code.springdemo.restapp.dto.AmazonSES;
 import com.luv2code.springdemo.restapp.errorHandling.EmployeeErrorHandling;
 import com.luv2code.springdemo.restapp.dto.UserDto;
 import com.luv2code.springdemo.restapp.dto.Util;
+import com.luv2code.springdemo.restapp.passwordReset.PasswordRepository;
+import com.luv2code.springdemo.restapp.passwordReset.PasswordRequestModel;
+import com.luv2code.springdemo.restapp.passwordReset.PasswordResetModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +25,8 @@ public class UserAuthServiceImpl  implements  UserAuthService{
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     Util util;
+    @Autowired
+    PasswordRepository passwordRepository;
     @Override
     public void createUser(UserDto user) {
          User storedEmail=userAuthRespository.findByEmail(user.getEmail());
@@ -32,8 +38,10 @@ public class UserAuthServiceImpl  implements  UserAuthService{
         user.setEmailVerificationToken(util.generateEmailVerificationToken(publicUserId));
         user.setEmailVerificationStatus(false);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        new AmazonSES().verifyEmail(user);
         ModelMapper modelMapper=new ModelMapper();
         User userSignup=modelMapper.map(user,User.class);
+
 
         userAuthRespository.save(userSignup);
      //   BeanUtils.copyProperties(userAuth,userDto);
@@ -44,14 +52,61 @@ public class UserAuthServiceImpl  implements  UserAuthService{
     @Override
     public boolean verifyEmailToken(String token) {
         boolean returnValue=false;
-        User user=userAuthRespository.findUserByEmailVerificationToken(token);
+        User user=userAuthRespository.findByEmailVerificationToken(token);
         if(token!=null){
             boolean hasTokenExpired=util.hasTokenExpired(token);
             if(!hasTokenExpired){
                 user.setEmailVerificationToken(null);
                 user.setEmailVerificationStatus(Boolean.TRUE);
+                userAuthRespository.save(user);
                 returnValue=true;
             }
+        }
+        return returnValue;
+    }
+
+    @Override
+    public boolean passwordReset(String email) {
+        boolean returnValue=false;
+        User storedEmail=userAuthRespository.findByEmail(email);
+        if(storedEmail==null){
+          return  returnValue;
+        }
+        String token= util.generatePasswordResetToken(storedEmail.getUserid());
+        PasswordResetModel passwordReset=new PasswordResetModel();
+        passwordReset.setToken(token);
+        passwordReset.setUser(storedEmail);
+        passwordRepository.save(passwordReset);
+
+     returnValue = new AmazonSES().passwordReset(token,storedEmail);
+
+        return returnValue;
+    }
+
+    @Override
+    public boolean passwordResetnew(String token, String passwordtyped) {
+        boolean returnValue = false;
+        if (token != null) {
+            boolean hasTokenExpired = util.hasTokenExpired(token);
+            if (!hasTokenExpired) {
+                PasswordResetModel passwordRequestModel = passwordRepository.findByToken(token);
+                if (passwordRequestModel == null) {
+                    return returnValue;
+                }
+                String encodedPassword = bCryptPasswordEncoder.encode(passwordtyped);
+                //Update the User's password
+                User user = passwordRequestModel.getUser();
+                user.setPassword(encodedPassword);
+                userAuthRespository.save(user);
+                passwordRepository.delete(passwordRequestModel);
+                return returnValue = true;
+
+            }
+
+
+//            if (savedUser != null) {
+//            }
+            //delete token from DB
         }
         return returnValue;
     }

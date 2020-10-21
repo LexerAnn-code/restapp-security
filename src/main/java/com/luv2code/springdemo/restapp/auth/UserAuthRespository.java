@@ -4,5 +4,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserAuthRespository  extends CrudRepository<User,Long> {
     User findByEmail(String email);
-    User findUserByEmailVerificationToken(String token);
+    User findByEmailVerificationToken(String token);
 }
